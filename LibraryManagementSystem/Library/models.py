@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime ,timedelta
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Book (models.Model):
@@ -13,10 +14,10 @@ class Book (models.Model):
     
 
 class Student (models.Model):
-   user = models.OneToOneField("User", verbose_name=("Student"), on_delete=models.CASCADE)
+   user = models.OneToOneField(User, verbose_name=("Student"), on_delete=models.CASCADE)
    classroom =models.CharField(("Class Room"), max_length=50)
    branch=models.CharField(("Branch"), max_length=10)
-   roll_no=models.CharField(("Roll No."),blank=True)
+   roll_no=models.CharField(("Roll No."),max_length=10,blank=True)
    phone = models.CharField(("Phone No."), max_length=50,blank=True)
    image=models.ImageField(("Image"), upload_to="", blank=True)
    

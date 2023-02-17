@@ -1,16 +1,23 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" >
-        
-    </head>
-    <body>
-        
-        
-    </body>
-</html>
+{% extends 'base.html' %}
+{%load static%}
+
+{% block content %}
+    <h1>Welcome to Library Management System</h1>
+    <div>
+    <p>You can register as student. You will be able to issue any book thorugh the admin.<br> After that you need to return the book within 14 days or else a fine of Rs 5 will be <br> charged per day till the book is returned.</p>
+    <button type="button" class="btn btn-primary">Student Registration</button>
+    </div>
+    <div class="card" style="width: 18rem;display:inline-block;">
+        <img class="card-img-top" src="{%static '/images/admin.png'%}" alt="Admin">
+        <div class="card-body">
+          <a href="{%url 'admin_login'%}">  <button type="button" class="btn btn-primary">Admin</button></a>
+        </div>
+      </div>
+
+      <div class="card" style="width: 18rem;display:inline-block;">
+        <img class="card-img-top" src="{%static '/images/students.png'%}" alt="Admin">
+        <div class="card-body">
+            <a href ="{%url 'student_login'%}" ><button type="button" class="btn btn-primary">Student</button></a>
+        </div>
+      </div>
+      {% endblock content %}    

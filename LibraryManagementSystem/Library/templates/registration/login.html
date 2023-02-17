@@ -1,0 +1,26 @@
+
+{%extends "base.html"%}
+
+{% block content %}
+
+{% if request.session.user_type == 'admin' %}
+    <h1>Login as admin</h1>
+{% else %}
+    <h1>Login as student</h1>
+{% endif %}
+<form method ='post'>
+    {% csrf_token %}
+    
+    {{form.as_p}}
+
+
+    <div class='submit'>
+        <button class="btn btn-primary" >
+            Submit
+        </button>
+    </div>
+
+
+</form>
+<a href="{% url 'index' %}"> Back Home</a>
+{% endblock%}
