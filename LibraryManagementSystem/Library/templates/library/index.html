@@ -2,10 +2,11 @@
 {%load static%}
 
 {% block content %}
+
     <h1>Welcome to Library Management System</h1>
     <div>
     <p>You can register as student. You will be able to issue any book thorugh the admin.<br> After that you need to return the book within 14 days or else a fine of Rs 5 will be <br> charged per day till the book is returned.</p>
-    <button type="button" class="btn btn-primary">Student Registration</button>
+    <a href="{%url 'student_registration'%}"><button type="button" class="btn btn-primary">Student Registration</button></a>
     </div>
     <div class="card" style="width: 18rem;display:inline-block;">
         <img class="card-img-top" src="{%static '/images/admin.png'%}" alt="Admin">

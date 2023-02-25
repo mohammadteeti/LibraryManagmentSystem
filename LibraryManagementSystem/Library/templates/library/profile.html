@@ -1,0 +1,68 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+ <div class="container" style="justify-content:center;text-align:center;" ><h1>Welcome {{request.user}} </h1></div>
+  
+ <div class="container profile">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="profile-img">
+                <img src="/{{request.user.student.image}}" width="310px" height="270px" >
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="tab-pane">
+                <div class="row id">
+                    <div class="col-md-6"><label>ID:</label></div>
+
+                    <div class="col-md-6"><p>{{request.user.id}}</p></div>
+                </div>
+
+                <div class="row username">
+                    <div class="col-md-6"><label>User Name:</label></div>
+                    <div class="col-md-6"><p>{{request.user.username}}</p></div>
+                </div>
+
+                <div class="row fullname">
+                    <div class="col-md-6"><label>Full Name:</label></div>
+                    <div class="col-md-6"><p>{{request.user.first_name}} {{request.user.last_name}} </p></div>
+                </div>
+
+                <div class="row email">
+                    <div class="col-md-6"><label>Email:</label></div>
+                    <div class="col-md-6"><p>{{request.user.email}}</p></div>
+                </div>
+
+                <div class="row phone">
+                    <div class="col-md-6"><label>Phone No.:</label></div>
+                    <div class="col-md-6"><p>{{request.user.student.phone}}</p></div>
+                </div>
+
+                <div class="row branch">
+                    <div class="col-md-6"><label>Branch:</label></div>
+                    <div class="col-md-6"><p>{{request.user.student.branch}}</p></div>
+                </div>
+
+                <div class="row class">
+                    <div class="col-md-6"><label>Class</label></div>
+                    <div class="col-md-6"><p>{{request.user.student.classroom}}</p></div>
+                </div>
+
+                <div class="row roll">
+                    <div class="col-md-6"><label>Roll No.</label></div>
+                    <div class="col-md-6"><p>{{request.user.student.roll_no}}</p></div>
+                </div>
+            </div>
+       
+
+        </div>
+        <a class="btn btn-primary" href="{% url 'edit_profile' %}">
+            Edit Profile
+        </a>
+    </div>
+ </div>
+{% endblock content %}
+
+
+

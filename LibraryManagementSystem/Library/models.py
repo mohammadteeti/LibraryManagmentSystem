@@ -19,7 +19,7 @@ class Student (models.Model):
    branch=models.CharField(("Branch"), max_length=10)
    roll_no=models.CharField(("Roll No."),max_length=10,blank=True)
    phone = models.CharField(("Phone No."), max_length=50,blank=True)
-   image=models.ImageField(("Image"), upload_to="", blank=True)
+   image=models.ImageField(("Image"), upload_to="static/images/students", blank=True)
    
    def __str__(self) -> str:
        return f"{self.user} [{self.classroom}] [{self.branch}] [{self.roll_no}]"

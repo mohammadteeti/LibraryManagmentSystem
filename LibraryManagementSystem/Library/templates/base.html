@@ -18,17 +18,16 @@
 
       <a class="navbar-brand" href="#">Library Managment System</a>
         
-      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="float:right;">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content:flex-end;" >
         <ul class="navbar-nav mr-auto">
 
+          {% if  not request.user.is_authenticated %}
+          
           <li class="nav-item">
             <a class="nav-link" href="{%url 'index' %}">Home </a>
           </li>
 
-          {%if not request.user.is_authenticated %}
-
           <li class="nav-item">
-            
             <a class="nav-link" href="{%url 'admin_login'%}">Admin Login</a>
           </li>
         
@@ -37,9 +36,31 @@
           </li>
 
           {% endif %}
+
+          {%if request.user.is_authenticated and not request.user.is_superuser%}
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'view_issued_books' %}">Issued Books</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="#">Change Password</a>
+          </li>
+        
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'profile' %}">Profile</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'logout' %}">Logout</a>
+          </li>
+        
+          {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{%url 'student_registration' %}">Student Registration</a>
           </li>
+          {% endif %}
+   
 
         </ul>
         

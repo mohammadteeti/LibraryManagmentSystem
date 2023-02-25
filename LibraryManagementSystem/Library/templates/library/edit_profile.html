@@ -1,0 +1,88 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Edit Profile</h1>
+{% load crispy_forms_tags %} 
+
+<form method="post"  enctype="multipart/form-data">
+
+    {% csrf_token %}
+  <div class="form-group">
+    <div class="row mt-4">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required value="{{request.user.username}}"/>
+    </div>
+
+    <div class="form-group row mt-2">
+      <div class="col-md-2">
+        <label for="firstname">First Name</label>
+        <input type="text" name="firstname" id="firstname"  required value="{{request.user.first_name}}" />
+      </div>
+      <div class="col-md-2">
+        <label for="lastname">Last Name</label>
+        <input type="text" name="lastname" id="lastname" required value="{{request.user.last_name}}"/>
+      </div>
+    </div>
+
+    <div class="form-group row mt-2">
+        <div class="col-md-2">
+          <label for="email">Email</label>
+          <input type="text" name="email" id="email"  required value="{{request.user.email}}"/>
+        </div>
+        <div class="col-md-2">
+          <label for="mobile">Mobile Number</label>
+          <input type="text" name="mobile" id="mobile"   value="{{request.user.student.phone}}"/>
+        </div>
+      </div>
+
+      <div class="form-group row mt-2">
+        <div class="col-md-2">
+          <label for="branch">Branch Name</label>
+          <input type="text" name="branch" id="branch" value="{{request.user.student.branch}}"/>
+        </div>
+        <div class="col-md-2">
+          <label for="className">Class Name</label>
+          <input type="text" name="className" id="className" value="{{request.user.student.classroom}}" />
+        </div>
+      </div>
+
+
+      <div class="form-group row mt-2">
+        <div class="col-md-2">
+          <label for="roll">Roll Number</label>
+          <input type="text" name="roll" id="roll" value="{{request.user.student.roll_no}}"/>
+        </div>
+        <div class="col-md-2">
+          <label for="image">Student Image</label>
+          <input type="file" name="image" id="image"   default="{{request.user.student.image}}"/>
+        </div>
+      </div>
+
+    
+    
+    
+
+  </div>
+  <div class="form-group">
+    <button class="btn btn-primary">Save</button>
+</div>
+
+</form>
+{% if passwordNotMatch %}
+<script>
+    if (alert){
+        alert('Password Mismatch');
+    }
+</script>
+{% endif %}
+
+
+{% if errors %}
+<script>
+    if (alert){
+        alert('{{errors}}\n');
+    }
+</script>
+{% endif %}
+
+
+{% endblock content %}
