@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Srial No.</th>
+        <th scope="col">Student ID</th>
+        <th scope="col">Student Name</th>
+        <th scope="col">Book Name</th>
+        <th scope="col">Book Author</th>
+        <th scope="col">Issue Date</th>
+        <th scope="col">Expiry Date</th>
+        <th scope="col">Fee</th>
+      </tr>
+    </thead>
+    <tbody>
+{% for book_detail in books_details %}
+
+
+      <tr>
+        
+        <td>{{book_detail.0}}</td>
+        <td>{{book_detail.1}}</td>
+        <td>{{book_detail.2}}</td>
+        <td>{{book_detail.3}}</td>
+        <td>{{book_detail.4}}</td>
+        <td>{{book_detail.5}}</td>
+        <td>{{book_detail.6}}</td>
+
+      </tr>
+{%empty%}
+
+<h1>No Issued Books Yet ... </h1>
+
+{% endfor %}
+
+</tbody>
+</table>
+{% endblock content %}
