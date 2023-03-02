@@ -160,13 +160,16 @@ def student_issued_books (request):
     fees=0
     for i in issued_books:
         book= Book.objects.get(isbn=i.isbn)
-        t=(request.user.id,request.user.get_full_name,book.name,book.author,i.issued_date,i.expiry_date,0)
+        t=tuple([book.isbn,request.user.id,request.user.get_full_name,book.name,book.author,i.issued_date,i.expiry_date,0])
         days=date.today()-i.issued_date
         d=days.days
         fees=0
         if(d>14):
             fees=(d-14)*5
-        t[6]=fees
+        t=list(t)
+        
+        t.insert(7,fees)
+        t=tuple(t)
         
         books_details.append(t)
         
