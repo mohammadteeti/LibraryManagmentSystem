@@ -14,6 +14,7 @@ urlpatterns = [
     # path("view_issued_book/",views.view_issued_book,name="view_issued_book"),
     # path ("student_issued_books/",views.student_issued_books,name="student_issued_books"),
       path("profile/",views.profile,name="profile"),
+      path("student_issued_books/",views.student_issued_books,name="student_issued_books"),
       path("edit_profile/",views.edit_profile,name="edit_profile"),
       path("after_login/",views.after_login,name="after_login"),
     # path ("edit_profile/",views.edit_profile,name="edit_profile"),
