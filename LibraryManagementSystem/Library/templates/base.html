@@ -40,7 +40,7 @@
           {%if request.user.is_authenticated and not request.user.is_superuser%}
           
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'view_issued_books' %}">Issued Books</a>
+            <a class="nav-link" href="{% url 'student_issued_books' %}">Issued Books</a>
           </li>
 
           <li class="nav-item">
