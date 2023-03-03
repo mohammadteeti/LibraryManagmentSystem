@@ -161,11 +161,18 @@ def student_issued_books (request):
     for i in issued_books:
         book= Book.objects.get(isbn=i.isbn)
         t=tuple([book.isbn,request.user.id,request.user.get_full_name,book.name,book.author,i.issued_date,i.expiry_date,0])
+        spanDays = (i.expiry_date-i.issued_date).days
+        print(spanDays)
         days=date.today()-i.issued_date
+        
+        
         d=days.days
+        print("days",d)
         fees=0
-        if(d>14):
-            fees=(d-14)*5
+        
+        if(d>spanDays):
+            fees=(d-spanDays)*5
+            print(f'days:{d} , Difference {d-14} , Fees : {fees}')
         t=list(t)
         
         t.insert(7,fees)
@@ -174,4 +181,6 @@ def student_issued_books (request):
         books_details.append(t)
         
     return render(request,"library/student_issued_books.html",{"books_details":books_details})
+
+
 
