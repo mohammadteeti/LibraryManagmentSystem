@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Library',
      'crispy_forms',
+
      
 ]
 
@@ -59,7 +60,10 @@ ROOT_URLCONF = 'LibraryManagementSystem.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'Library/templates')],#very important to tell django to search for 
+                                                              #templates in these folders 
+                                                              #used when we want to override a built in tempalte in django
+                                                              #such as password_change
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,3 +138,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL='after_login'
 LOGOUT_REDIRECT_URL='index'
+
+
+EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST='localhost'
+EMAIL_PORT = '573'
