@@ -31,7 +31,7 @@ def expiry():
 class IssuedBook(models.Model):
     student_id = models.CharField(("Student ID"), max_length=100)
     isbn =models.CharField(("ISBN"), max_length=13)
-    issued_date = models.DateField(("Issued On"), auto_now=True)
+    issued_date = models.DateField(("Issued On"), auto_now=False)
     expiry_date=models.DateField(("Expires in:"),default=expiry())
     
     
