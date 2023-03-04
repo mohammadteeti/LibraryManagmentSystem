@@ -23,6 +23,10 @@ urlpatterns = [
     # path("change_password/",views.change_password,name="change_password"),
     path ("student_login/",views.student_login,name="student_login"),
     path ("admin_login/",views.admin_login,name="admin_login"),
+    
+    path ("add_book/",views.add_book,name="add_book"),
+    path ('view_books/',views.view_books,name='view_books'),
+    
     # path ("logout",views.logout,name="logout"),
     # path ("delete_book/<int:book_id>/",views.delete_book,name="delete_book"),
     # path ("delete_student/<int:student_id",views.delete_student,name="delete_student"),

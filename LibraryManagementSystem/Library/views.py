@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from datetime import date
+from .forms import add_book_form
+from django.contrib import messages
 # Create your views here.
 
 
@@ -22,7 +24,7 @@ def after_login (request):
         logout(request)
         return redirect('student_login')
     elif request.user.is_superuser and request.session['user_type']=='admin':
-        return redirect('/admin')# or redirect (reverse('admin:index)) 
+        return redirect('add_book')# or redirect (reverse('admin:index)) 
     elif not request.user.is_superuser and request.session['user_type']=='admin':
         logout(request)
         return redirect('admin_login')
@@ -83,7 +85,7 @@ def edit_profile(request):
 def admin_login(request):
     if request.user.is_authenticated:
         if request.user.is_superuser:
-            return redirect('/admin') # or redirect (reverse('admin:index)) 
+            return redirect('add_book') 
         else:
             return redirect(reverse('profile'))
     else:
@@ -184,3 +186,29 @@ def student_issued_books (request):
 
 
 
+
+@login_required(login_url='/admin_login')
+def add_book (request):
+    
+    form = add_book_form()
+    
+    if request.method=="POST":
+        form=add_book_form(request.POST)
+        if form.is_valid:
+            book=form.save(commit=True) #it's True by default
+            book.save()
+            messages.add_message(request,messages.SUCCESS,f"Book {book.name} was added Succesfully!")    
+            return redirect('view_books')    
+        # else:
+        #     errors=form.errors
+        #     return render(request,'library/add_book.html')
+    return render (request,"library/add_book.html",{"form":form})
+
+def view_books(request):
+    books = Book.objects.all().order_by('-name')
+    
+    return render(request,'library/view_books.html',{'books':books})
+    
+
+        
+        
