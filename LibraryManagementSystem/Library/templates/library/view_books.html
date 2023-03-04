@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if messages %}
+
+<ul id="my-li" class="messages" style="list-style-type: none;text-align:center;">
+    {% for m in messages %}
+
+    {% if m.tags and  'success' in m.tags %}
+    <li  class="alert alert-success">{{m}}</li>
+    {% elif m.tags and 'error' in m.tags %}
+    <li class="alert alert-danger">{{m}}</li>
+    {% endif %} 
+    {% endfor %}
+     
+</ul>
+
+
+{% endif %}
+
+<table class="table" id="my-table">
+    <thead>
+        <th>ISBN</th>
+        <th>Name</th>
+        <th>Author</th>
+        <th>Category</th>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{book.isbn}}</td>
+            <td>{{book.name}}</td>
+            <td>{{book.author}}r</td>
+            <td>{{book.category}}</td>
+        </tr>
+        {%empty%} {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+<script>
+ <!-- fade out messages list  -->
+    $(document).ready(function() {
+        
+        $("#my-li").fadeOut(6000); // fade out over 3 seconds
+        
+    });
+</script>
+
+{% endblock content %}
+
