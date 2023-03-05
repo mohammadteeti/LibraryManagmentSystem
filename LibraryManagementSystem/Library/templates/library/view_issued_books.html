@@ -20,9 +20,12 @@
         <div class="col">
 
             <form method="post">
+              {% csrf_token %}
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
+               {{form.searchBy}}
+
               </div>
+              
             </form>
 
           </div>

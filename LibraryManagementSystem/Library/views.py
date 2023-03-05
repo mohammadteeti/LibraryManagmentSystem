@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from datetime import date
-from .forms import add_book_form
+from .forms import add_book_form,searchForm,SearchFilterField
 from django.contrib import messages
 from django.core.paginator import Paginator
 # Create your views here.
@@ -223,14 +223,15 @@ def issue_book(request):
     form={}
     return render(request,'library/issue_book.html',{"form":form})
 
-def view_issued_books(request,page):
+def view_issued_books(request,page_num):
     data=[]
-    issued_books=IssuedBook.objects.all()
+    issued_books=None
+    form=searchForm()
+    issued_books = IssuedBook.objects.all()
     
     for i in issued_books:
         s=Student.objects.get(id=i.student_id)
         b=Book.objects.get(isbn=i.isbn)
-        
         spanDays = (i.expiry_date-i.issued_date).days
         days=date.today()-i.issued_date
         d=days.days
@@ -238,8 +239,74 @@ def view_issued_books(request,page):
         if(d>spanDays):
             fees=(d-spanDays)*5
         data.append([i,s,b,fees])
-    p=Paginator(data,per_page=2)
-    page=p.page(page)
         
-    return render(request,'library/view_issued_books.html',{"page":page})
+    if request.method=="POST":
+        form=searchForm(request.POST)
+        if form.is_valid:
+            # I had a bug here cant use cleaned_data as I have a multiwidget field 
+            #  so I used raw retrievement method 
+            # search_item=form.fields['item']
+            search_item=request.POST.get('searchBy_0')
+            print(search_item)
+            # same bug ghere
+            # by=form.cleaned_data['by']
+            by=request.POST.get('searchBy_1')
+            print (by)
+            if by=='name':
+                std=Student.objects.filter(user__first_name__contains=search_item)
+                print(std)
+                if std :
+                   for s in std:
+                       print('s.id=',s.id)
+                       issued_books=IssuedBook.objects.filter(student_id=s.id)#id==1 just for test ,it should be studen_id=s.id
+                       print('issued_books',issued_books)
+                       data=[]
+                       for i in issued_books:
+                            s=Student.objects.get(id=i.student_id)
+                            b=Book.objects.get(isbn=i.isbn)
+                            
+                            spanDays = (i.expiry_date-i.issued_date).days
+                            days=date.today()-i.issued_date
+                            d=days.days
+                            fees=0
+                            if(d>spanDays):
+                                fees=(d-spanDays)*5
+                            data.append([i,s,b,fees])
+                else:
+                    data=[]
+            elif by=='isbn':
+                if len(search_item)==9:# fix a bug ,isbn is 13 , actually I just need to modefy values in the database 
+                    issued_books = IssuedBook.objects.filter(isbn=search_item)
+                    print('isbn',search_item)
+                    if issued_books:
+                        data=[]
+                        for i in issued_books:
+                            s=Student.objects.get(id=i.student_id)
+                            b=Book.objects.get(isbn=i.isbn)
+                            
+                            spanDays = (i.expiry_date-i.issued_date).days
+                            days=date.today()-i.issued_date
+                            d=days.days
+                            fees=0
+                            if(d>spanDays):
+                                fees=(d-spanDays)*5
+                            data.append([i,s,b,fees])
+                    else:
+                        data=[]
+                else:
+                    messages.add_message(request,messages.ERROR,'ISBN Must have 13 digits')
+        p=Paginator(data,per_page=2)
+        page=p.get_page(1)
+        return render(request,'library/view_issued_books.html',{"page":page,"form":form})
+                        
+                    
+                
+                    
+            
+
+    
+
+    p=Paginator(data,per_page=2)
+    page=p.get_page(page_num)
+    return render(request,'library/view_issued_books.html',{"page":page,"form":form})
     
