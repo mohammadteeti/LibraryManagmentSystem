@@ -49,6 +49,53 @@ class add_book_form(forms.ModelForm): #there is a diifference between Form and M
         model = Book
         fields=['name','author','isbn','category']
         
+# ----------------------Search Forms ------------------
+class SearchFilterWidget(forms.MultiWidget):
+    def __init__(self, attrs=None):
+        widgets = [
+            forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Search','name':'item'}),
+            forms.Select(attrs={'class': 'form-control',
+                                'name':'by'}, choices=[('name', 'Name'), ('isbn', 'ISBN'), ('book', 'Book')]),
+        ]
+        super().__init__(widgets, attrs)
+
+    def decompress(self, value):
+        if value:
+            return value.split(',')
+        return [None, None]
+
+class SearchFilterField(forms.MultiValueField):
+    widget = SearchFilterWidget
+
+    def __init__(self, *args, **kwargs):
+        fields = [
+            forms.CharField(),
+            forms.CharField(),
+        ]
+        super().__init__(fields, *args, **kwargs)
+
+    def compress(self, values):
+        if values:
+            return ','.join(values)
+        return ''
+    
+    
+# this is not a model form 
+# it is only used to retrieve the search item from
+#search box 
+
+class searchForm(forms.Form):
+    # item=forms.CharField (label='',max_length=50, required=True,widget=forms.TextInput(
+    #     attrs={
+    #         "class":"form-control",
+    #         "placeholder":"search",
+    #         "type":"text",
+    #         "label":"none",
+    #         "name":"search-item"
+    #         }
+    #     )
+    #     )
+    searchBy = SearchFilterField()
     
     
     
