@@ -1,4 +1,5 @@
 
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -7,15 +8,19 @@
     <title></title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static '/css/base.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/basejs.js' %}"></script>
     
+ {% block css %}{% endblock css %}
+
   </head>
-  <body>
+  <body onload=''>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
@@ -40,7 +45,9 @@
 
           {% endif %}
 
-          {%if request.user.is_authenticated and not request.user.is_superuser%}
+          {%if request.user.is_authenticated %}
+          
+          {%  if not request.user.is_superuser%}
           
           <li class="nav-item">
             <a class="nav-link" href="{% url 'student_issued_books' %}">Issued Books</a>
@@ -54,16 +61,52 @@
             <a class="nav-link" href="{%url 'profile' %}">Profile</a>
           </li>
 
+       
+        
+          {% else %}
+
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'view_students' %}">View All Student</a>
+          </li>       
+
+          <li class="nav-item">
+          
+          <div class="dropdown show">
+
+            <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Books
+            </button>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          
+            <a class="dropdown-item" href="{%url 'add_book' %}">Add a Book</a>
+            <a class="dropdown-item" href="{%url 'view_books' %}">View All Books</a>
+
+        </div>
+      </div>
+    </li>
+      
+    
+
+          <li class="nav-item">
+
+            <div class="dropdown show">
+              <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Issue Books
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                <a class="dropdown-item" href="{%url 'issue_book' %}">Issue Book</a>
+                <a class="dropdown-item" href="{%url 'view_issued_books' %}">View All Issued Book</a>
+        </div>
+        </div>
+      </li>
+
+          
+          {% endif %}
           <li class="nav-item">
             <a class="nav-link" href="{%url 'logout' %}">Logout</a>
           </li>
-        
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{%url 'student_registration' %}">Student Registration</a>
-          </li>
           {% endif %}
-   
 
         </ul>
         
@@ -73,6 +116,6 @@
 {%block content%}
 
 {% endblock %}
-    
+
   </body>
 </html>
