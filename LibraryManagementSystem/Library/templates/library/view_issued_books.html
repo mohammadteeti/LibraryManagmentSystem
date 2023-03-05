@@ -28,8 +28,8 @@
           </div>
       </div>
 
-      <div class="row">
-        <div class="col">
+<div class="row">
+<div class="col">
 <table  class="table"  id="my-table">
     <thead>
         <th>ID</th>
@@ -43,33 +43,56 @@
         <th>Delete</th>
     </thead>
     <tbody>
-        {% for b in issued_books %}
+      
+
+        {% for d in page %}
         <tr>
-            <td>{{b.id}}</td>
-            <td>{{s.user.first_name}} {{s.user.last_name}}</td>
-            <td>{{s.user.email}}</td>
-            <td>{{s.classroom}}</td>
-            <td>{{s.branch}}</td>
-            <td>{{s.roll_no}}</td>
-            <td>{{s.phone}}</td>
-            <td><img class ='student-image' src="/{{s.image}}" alt=""></td>
+            <td>{{d.0.id}}</td>
+            <td>{{d.1.user.first_name}} {{s.user.last_name}}</td>
+            <td>{{d.1.id}}</td>
+            <td>{{d.2.name}}</td>
+            <td>{{d.2.isbn}}</td>
+            <td>{{d.0.issued_date}}</td>
+            <td>{{d.0.expiry_date}}</td>
+            <td>{{d.3}}</td>
+            <td><button class='btn btn-danger'>Delete</button></td>
         </tr>
-        {%empty%} {% endfor %}
+        {%empty%} 
+        
+        {% endfor %}
+    
     </tbody>
 </table>
 </div>
 </div>
+
+<br/>
+
+<nav aria-label="Page navigation ">
+  <ul class="pagination  justify-content-center">
+    {% if page.has_previous %}
+    <li class="page-item"><a class="page-link" href="{% url 'view_issued_books' page.previous_page_number %}">Prev</a></li>
+    {% endif %}
+    {% for p in page.paginator.page_range %}
+    <li class="page-item">
+      {% if p == page.number %}
+        <p class="page-link" style="background-color:wheat !important;" >{{p}}</p>
+      {% else %}
+      <a class="page-link" href="{% url 'view_issued_books' p %}">{{p}}</a>
+      {% endif %}
+    </li>
+    {% endfor %}
+    {% if page.has_next %}
+    <li class="page-item"><a class="page-link" href="{% url 'view_issued_books' page.next_page_number %}">next</a></li>
+    {% endif %}
+
+  </ul>
+</nav>
+</div>
+</div>
 </div>
 
 
-<script>
- <!-- fade out messages list  -->
-    $(document).ready(function() {
-        
-        refresh(5000)
-        
-    });
-</script>
 
 {% endblock content %}
 

@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import date
 from .forms import add_book_form
 from django.contrib import messages
+from django.core.paginator import Paginator
 # Create your views here.
 
 
@@ -222,7 +223,23 @@ def issue_book(request):
     form={}
     return render(request,'library/issue_book.html',{"form":form})
 
-def view_issued_books(request):
+def view_issued_books(request,page):
+    data=[]
     issued_books=IssuedBook.objects.all()
-    return render(request,'library/view_issued_books.html',{"issued_books":issued_books})
+    
+    for i in issued_books:
+        s=Student.objects.get(id=i.student_id)
+        b=Book.objects.get(isbn=i.isbn)
+        
+        spanDays = (i.expiry_date-i.issued_date).days
+        days=date.today()-i.issued_date
+        d=days.days
+        fees=0
+        if(d>spanDays):
+            fees=(d-spanDays)*5
+        data.append([i,s,b,fees])
+    p=Paginator(data,per_page=2)
+    page=p.page(page)
+        
+    return render(request,'library/view_issued_books.html',{"page":page})
     
