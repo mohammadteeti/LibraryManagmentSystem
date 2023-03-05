@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static '/css/view_student.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+
+
+<table  class="table"  id="my-table">
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Class Room</th>
+        <th>branch</th>
+        <th>Roll No.</th>
+        <th>Phone No.</th>
+        <th>Image</th>
+    </thead>
+    <tbody>
+        {% for s in students %}
+        <tr>
+            <td>{{s.id}}</td>
+            <td>{{s.user.first_name}} {{s.user.last_name}}</td>
+            <td>{{s.user.email}}</td>
+            <td>{{s.classroom}}</td>
+            <td>{{s.branch}}</td>
+            <td>{{s.roll_no}}</td>
+            <td>{{s.phone}}</td>
+            <td><img class ='student-image' src="/{{s.image}}" alt=""></td>
+        </tr>
+        {%empty%} {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+<script>
+ <!-- fade out messages list  -->
+    $(document).ready(function() {
+        
+        refresh(5000)
+        
+    });
+</script>
+
+{% endblock content %}
+

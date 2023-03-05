@@ -211,4 +211,18 @@ def view_books(request):
     
 
         
-        
+def view_students(request):
+    
+    students= Student.objects.all()
+    return render(request,'library/view_students.html',{"students":students})
+    pass
+
+
+def issue_book(request):
+    form={}
+    return render(request,'library/issue_book.html',{"form":form})
+
+def view_issued_books(request):
+    issued_books=IssuedBook.objects.all()
+    return render(request,'library/view_issued_books.html',{"issued_books":issued_books})
+    

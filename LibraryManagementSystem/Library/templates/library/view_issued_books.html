@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static '/css/view_issued_books.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+          <button class="btn">Copy</button>
+          <button class="btn">Excel</button>
+          <button class="btn">CSV</button>
+          <button class="btn">PDF</button>
+        </div>
+
+        <div class="col">
+
+            <form method="post">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search">
+              </div>
+            </form>
+
+          </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+<table  class="table"  id="my-table">
+    <thead>
+        <th>ID</th>
+        <th>Student</th>
+        <th>Student ID</th>
+        <th>Book Name</th>
+        <th>ISBN</th>
+        <th>Issued Date</th>
+        <th>Expiry Date</th>
+        <th>Fine</th>
+        <th>Delete</th>
+    </thead>
+    <tbody>
+        {% for b in issued_books %}
+        <tr>
+            <td>{{b.id}}</td>
+            <td>{{s.user.first_name}} {{s.user.last_name}}</td>
+            <td>{{s.user.email}}</td>
+            <td>{{s.classroom}}</td>
+            <td>{{s.branch}}</td>
+            <td>{{s.roll_no}}</td>
+            <td>{{s.phone}}</td>
+            <td><img class ='student-image' src="/{{s.image}}" alt=""></td>
+        </tr>
+        {%empty%} {% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<script>
+ <!-- fade out messages list  -->
+    $(document).ready(function() {
+        
+        refresh(5000)
+        
+    });
+</script>
+
+{% endblock content %}
+
