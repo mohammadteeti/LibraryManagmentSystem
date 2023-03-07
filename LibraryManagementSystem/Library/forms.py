@@ -1,6 +1,7 @@
 
-from .models import Book
+from .models import Book,Student
 from django import forms
+from datetime import date ,timedelta
 
 class add_book_form(forms.ModelForm): #there is a diifference between Form and ModelForm 
                                      #form dosn't hhave save method  ,it's not used to create 
@@ -85,17 +86,76 @@ class SearchFilterField(forms.MultiValueField):
 #search box 
 
 class searchForm(forms.Form):
-    # item=forms.CharField (label='',max_length=50, required=True,widget=forms.TextInput(
-    #     attrs={
-    #         "class":"form-control",
-    #         "placeholder":"search",
-    #         "type":"text",
-    #         "label":"none",
-    #         "name":"search-item"
-    #         }
-    #     )
-    #     )
-    searchBy = SearchFilterField()
+    SEARCH_BY_CHOICES = (('std_name','Student Name'),('book_name','Book Name'),('isbn','ISBN'))
+    item=forms.CharField (label='',max_length=50, required=True,widget=forms.TextInput(
+        attrs={
+            "class":"form-control",
+            "placeholder":"search",
+            "type":"text",
+            "label":"none",
+            "name":"item"
+            }
+        )
+        )
+    searchBy = forms.ChoiceField(label='', choices=SEARCH_BY_CHOICES, required=False,initial=SEARCH_BY_CHOICES[0],
+                                 widget=forms.Select(attrs={
+                                     "class":"Default select example mb-3" ,
+                                     "aria-label":".form-select-lg example",
+                                     "name":"searchBy",
+                                 })
+                                 )
     
     
     
+
+class IssueBookForm (forms.Form):
+    BOOKS=Book.objects.all()
+    STUDENTS=Student.objects.all()
+    print(BOOKS[0])
+    print(STUDENTS[0])
+    books= forms.ModelChoiceField(label='Choose a Book :', queryset=BOOKS, required=True,initial=BOOKS[0],
+                             
+                             widget=forms.Select(attrs={
+                                    "class":"form-select" ,
+                                    "aria-label":"Default select ",
+                                    "name":"book",
+                                 
+                             }))
+    
+    students= forms.ModelChoiceField(label='Choose a Student :', queryset=STUDENTS, required=True,initial=STUDENTS[0],
+                             
+                             widget=forms.Select(attrs={
+                                    "class":"form-select" ,
+                                    "aria-label":"Default select ",
+                                    "name":"student",
+                                 
+                             }))
+    
+    def expiry():
+        return date.today()+timedelta(days=14)
+    
+    issued_date =forms.DateField(label='Issued on:',initial=date.today(),widget=forms.DateInput(attrs={
+        "class":"form-control",
+        "type":"date",
+        "name":"issued_date",
+        
+    }))
+    expiry_date=forms.DateField(label='Expires on:',initial=expiry(),widget=forms.DateInput(attrs={
+        "class":"form-control",
+        "type":"date",
+        "name":"expiry_date",
+    }))
+    
+    
+class DeleteForm(forms.Form):
+    issued_book_id=forms.CharField(label='', max_length=50, required=False,widget=forms.TextInput(attrs={
+        
+        "type":"text",
+        "value":"",# when the form is included in the tabel as Delete buttons we pass student_id to it as {{id}}
+        "name":"issued_book_id",
+        "class":"issued_book_id",
+    }))
+    
+
+            
+            
