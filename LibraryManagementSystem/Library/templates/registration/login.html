@@ -1,7 +1,14 @@
 
 {%extends "base.html"%}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock css %}
+
 
 {% block content %}
+<div class="container login-form-container">
 
 {% if request.session.user_type == 'admin' %}
     <h1>Login as admin</h1>
@@ -9,20 +16,31 @@
     <h1>Login as student</h1>
 {% endif %}
 <form method ='post'>
+    <div class="form-control">
     {% csrf_token %}
     
-    {{form.as_p}}
-
-
-    <div class='submit'>
-        <button class="btn btn-primary" >
-            Submit
-        </button>
+    <div class="form-group">
+    <div class="row username-row mt-4">
+        <div class="col-md-2">{{form.username.label}}</div>
+        <div class="col-md-2">{{form.username}}</div>
     </div>
+    <div class="row password-row mt-4">
+        <div class="col-md-2">{{form.password.label}}</div>
+        <div class="col-md-2">{{form.password}}</div>
+    </div>
+</div>
 
 
+    <div class="row btn-row"> <input type="submit" value="Log in" class="btn btn-primary" ></div>
+            
+    
+
+</div>
 </form>
-<a href="{% url 'index' %}"> Back Home</a>
-<a href="{% url 'password_reset' %}"> Forgot Password ? Reset Now</a>
-<a href="{% url 'student_registration' %}"> Register New Account</a>
+<div class="row  link-row">
+<div class="col-md-2 back-home"><a href="{% url 'index' %}"> Back Home</a></div>
+<div class="col-md-4 reset" ><a href="{% url 'password_reset' %}"> Forgot Password ? Reset Now</a></div>
+<div class="col-md-4 new-account"><a href="{% url 'student_registration' %}"> Register New Account</a></div>
+</div>
+</div>
 {% endblock%}
