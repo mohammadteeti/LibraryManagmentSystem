@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class Book (models.Model):
     name = models.CharField(("Name"), max_length=50)
     author=models.CharField(("Author"), max_length=50)
-    isbn = models.PositiveIntegerField("ISBN")
+    isbn = models.PositiveIntegerField("ISBN" ,unique=True)
     category =models.CharField(("Category"), max_length=50)
     
     def __str__(self) -> str:
