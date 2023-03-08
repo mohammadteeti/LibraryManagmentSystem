@@ -1,6 +1,12 @@
 
 {% extends 'base.html' %}
 {% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock css %}
+
+
 {% block content %}
  <div class="container" style="justify-content:center;text-align:center;" ><h1>Welcome {{request.user}} </h1></div>
   

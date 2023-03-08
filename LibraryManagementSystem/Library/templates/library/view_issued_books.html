@@ -2,19 +2,42 @@
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static '/css/view_issued_books.css' %}">
+<link rel="stylesheet" href="{% static 'css/view_issued_books.css' %}">
 {% endblock css %}
 
 
 {% block content %}
 
-<div class="container">
+<div class="container messages-div">
+  {% if messages %}
+
+<ul id="my-li" class="messages" style="list-style-type: none;text-align:center;">
+    {% for m in messages %}
+
+    {% if m.tags and  'success' in m.tags %}
+    <li  class="alert alert-success">{{m}}</li>
+    {% elif m.tags and 'error' in m.tags %}
+    <li class="alert alert-danger">{{m}}</li>
+    {% endif %} 
+    {% endfor %}
+     
+</ul>
+{% else %}
+<ul id="my-li" class="messages" style="list-style-type: none;text-align:center;">
+  <li  id="li1" ></li>
+</ul>
+
+{% endif %}
+
+</div>
+
+<div class="container issued-books-container">
     <div class="row">
         <div class="col">
-          <button class="btn">Copy</button>
-          <button class="btn">Excel</button>
-          <button class="btn">CSV</button>
-          <button class="btn">PDF</button>
+          <button id="id_copy" class="btn btn-primary" >Copy</button>
+          <button id="id_excel" class="btn btn-primary">Excel</button>
+          <button id="id_csv" class="btn btn-primary">CSV</button>
+          <button id="id_pdf" class="btn btn-primary">PDF</button>
         </div>
 
         <div class="col">
@@ -22,10 +45,10 @@
             <form method="post">
               {% csrf_token %}
               <div class="form-group">
+               {{form.item}}
+               
                {{form.searchBy}}
-
               </div>
-              
             </form>
 
           </div>
@@ -33,8 +56,8 @@
 
 <div class="row">
 <div class="col">
-<table  class="table"  id="my-table">
-    <thead>
+<table  class="table  table-primary table-striped mt-5"  id="issued_books_table">
+    <thead class="table-dark">
         <th>ID</th>
         <th>Student</th>
         <th>Student ID</th>
@@ -58,7 +81,7 @@
             <td>{{d.0.issued_date}}</td>
             <td>{{d.0.expiry_date}}</td>
             <td>{{d.3}}</td>
-            <td><button class='btn btn-danger'>Delete</button></td>
+            <td>{% include 'library/delete_form.html' with deleteForm=deleteForm   id=d.0.id page=page %}</td>
         </tr>
         {%empty%} 
         
@@ -96,6 +119,8 @@
 </div>
 
 
+<script src="{% static 'js/view_issued_books.js'%}" type="module" ></script>
 
+ 
 {% endblock content %}
 

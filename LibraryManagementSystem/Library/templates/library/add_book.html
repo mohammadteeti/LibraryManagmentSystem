@@ -1,20 +1,65 @@
 
 {% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/add_book.css' %}">
+{% endblock css %}
 
 {% block content %}
 
+<div class="container add-book-container">
 <h1> Add New Book </h1>
 
-<form action="" method="post">
-    {% csrf_token %}
-    {{form.as_p}}
 
-    <input type="submit" value="Add">
+<form action="" method="post">
+
+    {% csrf_token %}
+    <div class="form-control">
+        <fieldset>
+        <div class="row mb-3 ">
+            <div class="col-md-2 ">
+                {{form.name.label}}
+            </div>
+            <div class="col-md-2">
+                {{form.name}}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-2">
+                {{form.author.label}}
+            </div>
+            <div class="col-md-2">
+                {{form.author}}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-2">
+                {{form.isbn.label}}
+            </div>
+            <div class="col-md-2">
+                {{form.isbn}}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-2">
+                {{form.category.label}}
+            </div>
+            <div class="col-md-2">
+                {{form.category}}
+            </div>
+        </div>
+
+    </fieldset>
+</div>
+    <input type="submit" class ="btn btn-primary"  value="Add Book">
 
 
 </form>
 
 
-
+</div>
  
 {% endblock content %}

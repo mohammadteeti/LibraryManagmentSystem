@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/student_issued_books.css' %}">
+{% endblock css %}
+
 
 {% block content %}
 
-<table class="table">
-    <thead>
+<div class="container student-issued-books-container">
+<table class="table  table-primary table-striped mt-5">
+    <thead class="table-dark">
       <tr>
         <th scope="col">Srial No.</th>
         <th scope="col">Student ID</th>
@@ -40,4 +46,6 @@
 
 </tbody>
 </table>
+
+</div>
 {% endblock content %}

@@ -1,4 +1,11 @@
 {% extends 'base.html' %}
+
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/view_books.css' %}">
+{% endblock css %}
+
+
 {% block content %}
 {% if messages %}
 
@@ -16,9 +23,9 @@
 
 
 {% endif %}
-
-<table class="table" id="my-table">
-    <thead>
+<div class="container">
+<table class="table  table-primary table-striped mt-5" id="books_table">
+    <thead class="table-dark">
         <th>ISBN</th>
         <th>Name</th>
         <th>Author</th>
@@ -37,7 +44,7 @@
 </table>
 
 
-
+</div>
 
 <script>
  <!-- fade out messages list  -->

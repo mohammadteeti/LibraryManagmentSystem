@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% load static %} {% block css %}
+<link rel="stylesheet" href="{% static 'css/issue_book.css' %}" />
+{% endblock css %} {% block content %}
+
+<div class="container issue-book-container">
+  <h1>Issue New Book</h1>
+
+  <form action="" method="post">
+    {% csrf_token %}
+    <div class="form-control">
+      <div class="row mt-4"><div class="col">{{form.students}}</div></div>
+      <div class="row mt-4"><div class="col">{{form.books}}</div></div>
+
+      <div class="row mt-4">
+        
+          <div class="col"><label for="Customization1">Issued On:</label></div>
+          <div class="col"><div class="md-form md-outline input-with-post-icon datepicker" >
+            {{form.issued_date}}</div></div>
+        
+      </div>
+
+      <div class="row mt-4">
+        <div class="col"><label for="Customization2">Expiray On:</label></div>
+          <div class="col">
+            <div class="md-form md-outline input-with-post-icon datepicker">
+            {{form.expiry_date}}
+          </div>
+        </div>
+        
+        </div>
+     
+      
+    </div>
+
+    <input type="submit" value="Issue Book" class="btn btn-primary " >
+  </form>
+</div>
+
+{% endblock content %}

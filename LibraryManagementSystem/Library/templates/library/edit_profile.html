@@ -1,4 +1,12 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/edit_profile.css' %}">
+{% endblock css %}
+
+{% block content %}
 
 <h1>Edit Profile</h1>
 {% load crispy_forms_tags %} 

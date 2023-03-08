@@ -1,24 +1,38 @@
 {% extends 'base.html' %}
 {%load static%}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock css %}
+
 {% block content %}
 
+<div class="container index-container">
+  <div class="row">
     <h1>Welcome to Library Management System</h1>
     <div>
     <p>You can register as student. You will be able to issue any book thorugh the admin.<br> After that you need to return the book within 14 days or else a fine of Rs 5 will be <br> charged per day till the book is returned.</p>
     <a href="{%url 'student_registration'%}"><button type="button" class="btn btn-primary">Student Registration</button></a>
     </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col">
     <div class="card" style="width: 18rem;display:inline-block;">
-        <img class="card-img-top" src="{%static '/images/admin.png'%}" alt="Admin">
+        <img class="card-img-top" src="{%static '/images/admin.png'%}" width="240px" height="240px" alt="Admin">
         <div class="card-body">
-          <a href="{%url 'admin_login'%}">  <button type="button" class="btn btn-primary">Admin</button></a>
+          <a href="{%url 'admin_login'%}">  <button type="button" class="btn btn-primary"  >Admin</button></a>
         </div>
       </div>
+    </div>
 
+    <div class="col">
       <div class="card" style="width: 18rem;display:inline-block;">
-        <img class="card-img-top" src="{%static '/images/students.png'%}" alt="Admin">
+        <img class="card-img-top" src="{%static '/images/students.png'%}" width="240px" height="240px" alt="Admin">
         <div class="card-body">
             <a href ="{%url 'student_login'%}" ><button type="button" class="btn btn-primary">Student</button></a>
         </div>
       </div>
+    </div>
+    </div>
+    </div>
       {% endblock content %}    

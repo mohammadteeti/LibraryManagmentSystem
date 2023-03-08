@@ -1,80 +1,114 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
 
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/student_registration.css' %}">
+{% endblock css %}
+
+{% block content %}
+
+<div class="container student-registration-container">
 <h1>Student Registration</h1>
 {% load crispy_forms_tags %} 
 
 <form method="post"  enctype="multipart/form-data">
 
     {% csrf_token %}
-  <div class="form-group">
-    <div class="row mt-4">
-      <label for="username">Username</label>
-      <input type="text" id="username" name="username" required value="{{form.username}}"/>
+  <div class="form-group ">
+<div class="form-control">
+
+    <div class="row username-row  mt-4 ">
+      <div class="col-md-1"><label for="username">Username</label></div>
+      <div class="col-md-2"> <input type="text" tabindex="1" id="username" name="username" required value="{{form.username}}"/></div>
+    </div>
+    <hr>
+
+    <div class="row main-row">
+      <div class="col main-col-1">
+
+    <div class="row firstName-row">
+      <div class="col-md-3"><label for="firstname">First Name</label></div>
+      <div class="col-md-2"><input type="text"   tabindex="2" name="firstname" id="firstname"  required value="{{form.firstname}}" /></div>
+    </div>
+<hr>
+    <div class="row email-row">
+      <div class="col-md-3"><label for="email">Email</label></div>
+      <div class="col-md-2"><input type="text"  tabindex="4" name="email" id="email"  required value="{{form.email}}"/></div>
     </div>
 
-    <div class="form-group row mt-2">
-      <div class="col-md-2">
-        <label for="firstname">First Name</label>
-        <input type="text" name="firstname" id="firstname"  required value="{{form.firstname}}" />
-      </div>
-      <div class="col-md-2">
-        <label for="lastname">Last Name</label>
-        <input type="text" name="lastname" id="lastname" required value="{{form.lastname}}"/>
-      </div>
+    <hr>
+
+    <div class="row branch-row">
+      <div class="col-md-3"><label for="branch">Branch Name</label></div>
+      <div class="col-md-2"><input type="text"  tabindex="6" name="branch" id="branch" value="{{form.branch}}"/></div>
+    </div>
+    <hr>
+    <div class="row roll-row">
+      <div class="col-md-3"><label for="roll">Roll Number</label></div>
+      <div class="col-md-2"><input type="text"  tabindex="8" name="roll" id="roll" value="{{form.roll}}"/></div>
     </div>
 
-    <div class="form-group row mt-2">
-        <div class="col-md-2">
-          <label for="email">Email</label>
-          <input type="text" name="email" id="email"  required value="{{form.email}}"/>
-        </div>
-        <div class="col-md-2">
-          <label for="mobile">Mobile Number</label>
-          <input type="text" name="mobile" id="mobile"   value="{{form.mobile}}"/>
-        </div>
-      </div>
+<hr>
 
-      <div class="form-group row mt-2">
-        <div class="col-md-2">
-          <label for="branch">Branch Name</label>
-          <input type="text" name="branch" id="branch" value="{{form.branch}}"/>
-        </div>
-        <div class="col-md-2">
-          <label for="className">Class Name</label>
-          <input type="text" name="className" id="className" value="{{form.className}}" />
-        </div>
-      </div>
+    <div class="row password-row">
+      <div class="col-md-3"><label for="password">Password</label></div>
+      <div class="col-md-2"><input type="password"  tabindex="10" name="password"  required id="password" /></div>
+    </div>
 
-
-      <div class="form-group row mt-2">
-        <div class="col-md-2">
-          <label for="roll">Roll Number</label>
-          <input type="text" name="roll" id="roll" value="{{form.roll}}"/>
-        </div>
-        <div class="col-md-2">
-          <label for="image">Student Image</label>
-          <input type="file" name="image" id="image"  required value="{{form.image}}"/>
-        </div>
-      </div>
-
-      <div class="form-group row mt-2">
-        <div class="col-md-2">
-          <label for="password">Password</label>
-          <input type="password" name="password"  required id="password" />
-        </div>
-        <div class="col-md-2">
-          <label for="passwordConfirm">Confirm Password</label>
-          <input type="password" name="passwordConfirm" required id="passwordConfirm" />
-        </div>
-
-      </div>
+    <hr>
 
   </div>
-  <div class="form-group">
-    <button class="btn btn-primary">Register</button>
-</div>
 
+  <div class="col main-col-2">
+
+    <div class="row lastName-row">
+      <div class="col-md-3"><label for="lastname">Last Name</label></div>
+      <div class="col-md-2"><input type="text"  tabindex="3" name="lastname" id="lastname" required value="{{form.lastname}}"/></div>
+    </div>
+
+    <hr>
+
+    <div class="row phone-row">
+      <div class="col-md-3"><label for="mobile">Mobile Number</label></div>
+      <div class="col-md-2"><input type="text"  tabindex="5" name="mobile" id="mobile"   value="{{form.mobile}}"/></div>
+    </div>
+    <hr>
+
+
+    <div class="row class-row">
+      <div class="col-md-3"><label for="className">Class Name</label></div>
+      <div class="col-md-2"><input type="text"  tabindex="7" name="className" id="className" value="{{form.className}}"/></div>
+    </div>
+
+    <hr>
+
+    <div class="row img-row">
+      <div class="col-md-3"><label for="image">Student Image</label></div>
+      <div class="col-md-2"> <input type="file"  tabindex="9" name="image" id="image"  required value="{{form.image}}"/></div>
+    </div>
+
+    <hr>
+
+    <div class="row confirm-password-row">
+      <div class="col-md-3"><label for="passwordConfirm">Confirm Password</label></div>
+      <div class="col-md-2"> <input type="password"  tabindex="11" name="passwordConfirm" required id="passwordConfirm" /></div>
+    </div>
+
+    <hr>
+
+
+  </div>
+
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-primary"  tabindex="12" >Register</button>
+</div>
+</div>
+</div>
 </form>
+
+</div>
 {% if passwordNotMatch %}
 <script>
     if (alert){

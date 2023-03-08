@@ -1,0 +1,62 @@
+
+
+<form id="my_form"  onsubmit="submitForm(event)" method="POST">
+    
+    {% csrf_token %}
+    {{deleteForm.as_p}}
+    <input type="submit" class="btn btn-danger" value="Delete">
+</form>
+
+    <!-- This script is used to add the passed id from the include method in the view_issued_books.html
+            to the issued_book_id field of the deleteForm ,so that the form submission will carry the Id to 
+            be used in the deleting process in the views.py
+
+
+    -->
+    <script>
+        $(".issued_book_id").each(function(){
+            if($(this).val()===""){
+                $(this).val('{{id}}');
+            }
+        console.log($(this).val());
+        });
+    
+        function submitForm(event) {
+            
+            var chk=confirm('Are You Sure?');
+            if(chk){
+                event.preventDefault();  // Prevent the form from submitting normally
+                
+                // Get the form data
+                const formData = new FormData(event.target);
+                
+                // Construct the URL to redirect to 
+                const url = "{% url 'delete_issued_book' page.number  %}";
+               
+                
+                // Submit the form via AJAX
+                fetch(url, {
+                method: 'POST',
+                body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                // Handle the response from the server
+                const url2= "{% url 'view_issued_books' page.number  %}";
+                window.location.href =url2;
+                
+                console.log(data);
+                })
+                .catch(error => {
+                // Handle any errors
+                console.error(error);
+                });
+                
+                // Redirect the user to the new URL
+                location.reload(true)
+        }
+        else{
+            return ;
+        }
+        }
+    </script>
