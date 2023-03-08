@@ -97,9 +97,9 @@ class searchForm(forms.Form):
             }
         )
         )
-    searchBy = forms.ChoiceField(label='', choices=SEARCH_BY_CHOICES, required=False,initial=SEARCH_BY_CHOICES[0],
+    searchBy = forms.ChoiceField(label='Filter', choices=SEARCH_BY_CHOICES, required=False,initial=SEARCH_BY_CHOICES[0],
                                  widget=forms.Select(attrs={
-                                     "class":"Default select example mb-3" ,
+                                     "class":"Default select example mb-3 mt-2 " ,
                                      "aria-label":".form-select-lg example",
                                      "name":"searchBy",
                                  })
@@ -149,7 +149,7 @@ class IssueBookForm (forms.Form):
     
 class DeleteForm(forms.Form):
     issued_book_id=forms.CharField(label='', max_length=50, required=False,widget=forms.TextInput(attrs={
-        
+        "hidden":"true",
         "type":"text",
         "value":"",# when the form is included in the tabel as Delete buttons we pass student_id to it as {{id}}
         "name":"issued_book_id",
