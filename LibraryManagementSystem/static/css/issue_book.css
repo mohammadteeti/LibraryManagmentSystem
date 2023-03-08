@@ -1,0 +1,26 @@
+.issue-book-container{
+
+    text-align: center !important;
+    align-items: center !important;
+    justify-content: center;
+    margin-top: 100px;
+    width: 50%;
+
+ 
+}
+
+.issue-book-container form{
+    margin-top: 50px ;
+justify-content: center !important;
+border: 1px rgb(116, 116, 155) solid;
+    align-items: center !important;
+    text-align: center !important;
+}
+
+form .btn{
+
+    margin-top: 40px;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 50% !important;
+}

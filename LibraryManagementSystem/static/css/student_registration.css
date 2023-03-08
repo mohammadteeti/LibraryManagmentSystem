@@ -1,0 +1,26 @@
+.main-row .row:nth-child(n){
+
+    margin-bottom: 10px;
+    
+}
+
+.main-row .confirm-password-row{
+    width: 100% !important;
+}
+
+.main-row .confirm-password-row .col-md-3{
+    width: 30% !important;
+}
+
+.username-row .col-md-1{
+    width: 12.2% !important;
+}
+form{
+    border: 1px rgb(116, 116, 155) solid;
+    
+    
+    
+}
+
+
+

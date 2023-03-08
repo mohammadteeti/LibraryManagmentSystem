@@ -1,0 +1,30 @@
+.add-book-container {
+
+   text-align: center !important;
+   align-items: center !important;
+   justify-content: center;
+   margin-top: 100px;
+   width: 50%;
+
+
+   
+}
+form{
+    margin-top: 50px ;
+    border: 1px rgb(116, 116, 155) solid;
+}
+h1{
+    text-align: center !important;
+}
+.row{
+    display: flex;
+}
+.row .col-md-2:nth-child(even) , .btn{
+    margin-left: 50px !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+.btn{
+    width: 50% !important;
+    margin-left: auto !important;
+}

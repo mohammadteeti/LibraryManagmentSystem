@@ -1,0 +1,22 @@
+
+.index-container{
+
+    text-align: center !important;
+    align-items: center !important;
+    justify-content: center;
+    margin-top: 50px;
+    width: 50%;
+ 
+}
+
+.index-container h1,p {
+    text-align: justify;
+}
+.index-container h1{
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.index-container img {
+    border: 1px solid rgb(95, 95, 122);
+}

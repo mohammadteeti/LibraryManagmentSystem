@@ -1,0 +1,67 @@
+.login-form-container{
+
+   justify-content: center !important;
+   margin-top: 100px;
+   width: 50%;
+
+}
+h1{
+    text-align: center;
+}
+
+
+form{
+    margin-top: 50px ;
+    border: 1px rgb(116, 116, 155) solid;
+
+}
+
+form .form-group{
+        width: 100% !important;
+        
+}
+
+.row {
+    display: flex;
+}
+.row .col-md-2 {
+
+    margin-left: 50px !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+}
+.btn-row{
+    margin-top: 20px;
+    display: flex;
+}
+
+
+.btn-row .btn{
+    margin-left: 25% !important;
+    width: 50% !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.row .link-row{
+    display: inline-block;
+}
+
+.back-home{
+    float: left !important;
+    text-align: left !important;
+    width: 16% !important;
+}
+
+.reset{
+    float: center !important;
+    text-align: center !important;
+    width: 35% !important;
+}
+
+.new-account{
+    float: right !important;
+    text-align: right !important;
+    width: 30% !important;
+}
