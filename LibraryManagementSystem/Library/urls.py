@@ -29,7 +29,8 @@ urlpatterns = [
     path ('view_student/',views.view_students,name='view_students'),
     path ('issue_book/',views.issue_book,name='issue_book'),
     path ('view_issued_books/<int:page_num>',views.view_issued_books,name='view_issued_books'),
-    
+    path('issue_book/',views.issue_book,name='issue_book'),
+    path('delete_issued_book/<int:page_num>',views.delete_issued_book,name='delete_issued_book'),
     # path ("logout",views.logout,name="logout"),
     # path ("delete_book/<int:book_id>/",views.delete_book,name="delete_book"),
     # path ("delete_student/<int:student_id",views.delete_student,name="delete_student"),

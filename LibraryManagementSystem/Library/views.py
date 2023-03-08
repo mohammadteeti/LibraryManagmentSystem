@@ -6,9 +6,10 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from datetime import date
-from .forms import add_book_form,searchForm,SearchFilterField
+from .forms import add_book_form,searchForm,SearchFilterField,IssueBookForm,DeleteForm
 from django.contrib import messages
 from django.core.paginator import Paginator
+import re
 # Create your views here.
 
 
@@ -55,7 +56,7 @@ def edit_profile(request):
             print(f"type: {type(request.FILES['image'])}")
             form['image']=request.FILES['image']
         try:
-            user= User.objects.get(username=request.user.username)
+            user= request.user
             student=Student.objects.get(user=user)
             
             user.username=form['username']
@@ -220,13 +221,42 @@ def view_students(request):
 
 
 def issue_book(request):
-    form={}
+    form=IssueBookForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        book=form.cleaned_data['books']
+        student=form.cleaned_data['students']
+        issued_date=form.cleaned_data['issued_date']
+        expiry_date=form.cleaned_data['expiry_date']
+        
+        i=IssuedBook(student_id=student.id,isbn=book.isbn,issued_date=issued_date,expiry_date=expiry_date)
+        i.save()
+        messages.add_message(request,messages.SUCCESS,str(book)+"issued succesfully")
+        return redirect('view_issued_books',page_num=1)
     return render(request,'library/issue_book.html',{"form":form})
 
+
+def delete_issued_book(request,page_num):
+    deleteForm=DeleteForm(request.POST or None)
+    if request.method=="POST" and  deleteForm.is_valid():
+        issued_book_id=deleteForm.cleaned_data['issued_book_id']
+        if issued_book_id:
+            print('Delete = ',issued_book_id)
+            i=IssuedBook.objects.get(id=issued_book_id)
+            i.delete()
+    return redirect('view_issued_books',page_num,permanent=False)
+    
+    
 def view_issued_books(request,page_num):
     data=[]
-    issued_books=None
-    form=searchForm()
+    form=searchForm(request.POST or None)
+    # deleteForm=DeleteForm(request.POST or None)
+    # if request.method=="POST" and  deleteForm.is_valid():
+    #     issued_book_id=deleteForm.cleaned_data['issued_book_id']
+    #     if issued_book_id:
+    #         print('Delete = ',issued_book_id)
+    #         i=IssuedBook.objects.get(id=issued_book_id)
+    #         i.delete()
+    #         return redirect('view_issued_books',page_num,permanent=False)
     issued_books = IssuedBook.objects.all()
     
     for i in issued_books:
@@ -239,74 +269,86 @@ def view_issued_books(request,page_num):
         if(d>spanDays):
             fees=(d-spanDays)*5
         data.append([i,s,b,fees])
+    
+    if request.method=="POST" and form.is_valid():
+        # I had a bug here cant use cleaned_data as I have a multiwidget field 
+        #  so I used raw retrievement method 
+        # search_item=form.fields['item']
+        search_item=form.cleaned_data['item']#request.POST.get('searchBy_0')
+        # same bug ghere
+        # by=form.cleaned_data['by']
+        by=form.cleaned_data['searchBy']#request.POST.get('searchBy_1')
         
-    if request.method=="POST":
-        form=searchForm(request.POST)
-        if form.is_valid:
-            # I had a bug here cant use cleaned_data as I have a multiwidget field 
-            #  so I used raw retrievement method 
-            # search_item=form.fields['item']
-            search_item=request.POST.get('searchBy_0')
-            print(search_item)
-            # same bug ghere
-            # by=form.cleaned_data['by']
-            by=request.POST.get('searchBy_1')
-            print (by)
-            if by=='name':
-                std=Student.objects.filter(user__first_name__contains=search_item)
-                print(std)
-                if std :
-                   for s in std:
-                       print('s.id=',s.id)
-                       issued_books=IssuedBook.objects.filter(student_id=s.id)#id==1 just for test ,it should be studen_id=s.id
-                       print('issued_books',issued_books)
-                       data=[]
-                       for i in issued_books:
-                            s=Student.objects.get(id=i.student_id)
-                            b=Book.objects.get(isbn=i.isbn)
-                            
-                            spanDays = (i.expiry_date-i.issued_date).days
-                            days=date.today()-i.issued_date
-                            d=days.days
-                            fees=0
-                            if(d>spanDays):
-                                fees=(d-spanDays)*5
-                            data.append([i,s,b,fees])
+        if by=='name':
+            std=Student.objects.filter(user__first_name__contains=search_item)
+            
+            if std :
+                for s in std:
+                    
+                    issued_books=IssuedBook.objects.filter(student_id=s.id)#id==1 just for test ,it should be studen_id=s.id
+                    
+                    data=[]
+                    for i in issued_books:
+                        s=Student.objects.get(id=i.student_id)
+                        b=Book.objects.get(isbn=i.isbn)
+                        
+                        spanDays = (i.expiry_date-i.issued_date).days
+                        days=date.today()-i.issued_date
+                        d=days.days
+                        fees=0
+                        if(d>spanDays):
+                            fees=(d-spanDays)*5
+                        data.append([i,s,b,fees])
+            else:
+                data=[]
+        elif by=='isbn':
+            if len(search_item)==13:# fix a bug ,isbn is 13 , actually I just need to modefy values in the database 
+                issued_books = IssuedBook.objects.filter(isbn=search_item)
+                
+                if issued_books:
+                    data=[]
+                    for i in issued_books:
+                        s=Student.objects.get(id=i.student_id)
+                        b=Book.objects.get(isbn=i.isbn)
+                        
+                        spanDays = (i.expiry_date-i.issued_date).days
+                        days=date.today()-i.issued_date
+                        d=days.days
+                        fees=0
+                        if(d>spanDays):
+                            fees=(d-spanDays)*5
+                        data.append([i,s,b,fees])
                 else:
                     data=[]
-            elif by=='isbn':
-                if len(search_item)==9:# fix a bug ,isbn is 13 , actually I just need to modefy values in the database 
-                    issued_books = IssuedBook.objects.filter(isbn=search_item)
-                    print('isbn',search_item)
-                    if issued_books:
-                        data=[]
-                        for i in issued_books:
-                            s=Student.objects.get(id=i.student_id)
-                            b=Book.objects.get(isbn=i.isbn)
-                            
-                            spanDays = (i.expiry_date-i.issued_date).days
-                            days=date.today()-i.issued_date
-                            d=days.days
-                            fees=0
-                            if(d>spanDays):
-                                fees=(d-spanDays)*5
-                            data.append([i,s,b,fees])
-                    else:
-                        data=[]
-                else:
-                    messages.add_message(request,messages.ERROR,'ISBN Must have 13 digits')
-        p=Paginator(data,per_page=2)
+            else:
+                messages.add_message(request,messages.ERROR,'ISBN Must have 13 digits')
+        elif by=='book_name':
+            bks=Book.objects.filter(name__contains=search_item)
+            if bks:
+                for bk in bks:
+                    issued_books=IssuedBook.objects.filter(isbn=bk.isbn)
+                    data=[]
+                    for i in issued_books:
+                        s=Student.objects.get(id=i.student_id)
+                        b=Book.objects.get(isbn=i.isbn)
+                        
+                        spanDays = (i.expiry_date-i.issued_date).days
+                        days=date.today()-i.issued_date
+                        d=days.days
+                        fees=0
+                        if(d>spanDays):
+                            fees=(d-spanDays)*5
+                        data.append([i,s,b,fees])
+            else:
+                data=[]
+                        
+                
+        p=Paginator(data,per_page=1000)
         page=p.get_page(1)
         return render(request,'library/view_issued_books.html',{"page":page,"form":form})
                         
                     
-                
-                    
-            
-
-    
-
-    p=Paginator(data,per_page=2)
+    p=Paginator(data,per_page=4)
     page=p.get_page(page_num)
     return render(request,'library/view_issued_books.html',{"page":page,"form":form})
     
